@@ -12,13 +12,13 @@ def load_user(user_id):
 
 
 class Pitch:
-  def __init__(self, id, title, author, posted_at, body, upvotes, downvotes):
+  def __init__(self, id, category, title, author, body, posted_at, upvotes, downvotes):
     self.id = id
+    self.category = category
     self.title = title
-    self.overview = overview
     self.author = author
-    self.posted_at = posted_at
     self.body = body
+    self.posted_at = posted_at
     self.upvotes = upvotes
     self.downvotes = downvotes
 

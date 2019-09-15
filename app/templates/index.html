@@ -13,10 +13,17 @@
 
 <body>
     {% block styles %}
+
       {{super()}}
       <link rel="stylesheet" href="{{url_for('static, filename='css/index.css')}}">
+      
     {% endblock %}
 
+    {% block content %}
+
     <h1>Pitch Perfect</h1>
+    {{ pitches }}
+
+    {% endblock %}
 </body>
 </html>
