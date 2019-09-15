@@ -11,6 +11,18 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+class Pitch:
+  def __init__(self, id, title, author, posted_at, body, upvotes, downvotes):
+    self.id = id
+    self.title = title
+    self.overview = overview
+    self.author = author
+    self.posted_at = posted_at
+    self.body = body
+    self.upvotes = upvotes
+    self.downvotes = downvotes
+
+
 class User(UserMixin,db.Model):
     __tablename__ = 'users'
     
