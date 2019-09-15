@@ -2,7 +2,8 @@ import os
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY')
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://audrey:12345@localhost/watchtower'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://audrey:12345@localhost/pitch'
+    SQLALCHEMY_TRACK_MODIFICATIONS  = False
     
     # simple mde configurations
     SIMPLEMDE_JS_IIFE = True
@@ -21,7 +22,7 @@ class Config:
         pass
 
 class TestConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'postgresql+pyscopg2://audrey:12345@localhost/watchtower_test'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+pyscopg2://audrey:12345@localhost/pitch_test'
 
 class ProdConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')

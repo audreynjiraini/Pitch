@@ -4,7 +4,7 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flask_simplemde import SimpleMDE
 from flask_sqlalchemy import SQLAlchemy
-from flask_uploads import UploadSet, configure_uploads
+from flask_uploads import UploadSet
 from config import config_options
 
 
@@ -14,7 +14,7 @@ login_manager.login_view = 'auth.login'
 
 
 bootstrap = Bootstrap()
-db = SQLAlchemy
+db = SQLAlchemy()
 mail = Mail()
 simple = SimpleMDE()
 
@@ -31,7 +31,6 @@ def create_app(config_name):
     db.init_app(app)
     login_manager.init_app(app)
     mail.init_app(app)
-    configure_uploads(app)
     simple.init_app(app)
 
     # Registering the blueprints
