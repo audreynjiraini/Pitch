@@ -40,7 +40,7 @@ By Audrey Njiraini
 No known bugs.
 
 ## Contact Information
-If you need clarification on any aspect, feel free to reach me on their email at audreynjiraini@gmail.com
+If you need clarification on any aspect, feel free to reach me via email at audreynjiraini@gmail.com
 
 ### License
 MIT License
