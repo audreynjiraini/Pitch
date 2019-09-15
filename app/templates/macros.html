@@ -1,0 +1,14 @@
+{% macro displayPitches(pitches_list) %}
+  {% for pitch in pitches_list %}
+
+  <div class="col-md-8"></div>
+  <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
+    <h1>{{pitch.title}}</h1>
+    <h3>{{pitch.body}}</h3>
+    <h6>Upvotes:<a href='/upvotes'>{{pitch.upvotes}}</a></h6>
+    <h6>Downvotes:{{pitch.downvotes}}</h6>
+  </div>
+  <div class="col-md-8"></div>
+  {% endfor %}
+  
+{% endmacro %}

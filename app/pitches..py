@@ -3,7 +3,7 @@ from .models import Pitch
 pitch = Pitch
 
 def save_pitch(pitch):
-    pitches = ['what']
+    pitches = []
     pitches.append(pitch)
     
     return pitches

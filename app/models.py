@@ -11,16 +11,28 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-class Pitch:
-  def __init__(self, id, category, title, author, body, posted_at, upvotes, downvotes):
-    self.id = id
-    self.category = category
-    self.title = title
-    self.author = author
-    self.body = body
-    self.posted_at = posted_at
-    self.upvotes = upvotes
-    self.downvotes = downvotes
+class Pitch(db.Model):
+    __tablename__ = 'pitch'
+    
+    id = db.Column(db.Integer, primary_key = True)
+    category = db.Column(db.String)
+    title = db.Column(db.String(255))
+    body = db.Column(db.String)
+    posted = db.Column(db.DateTime,default=datetime.utcnow)
+    upvotes = db.Column(db.Integer)
+    downvotes = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    
+    comments = db.relationship('Comments', backref='comments1', lazy='dynamic')
+
+    def save_pitch(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_pitches(cls, id):
+        pitches = Pitch.query.filter_by(category_id=id).all()
+        return pitches
 
 
 class User(UserMixin,db.Model):
@@ -31,6 +43,8 @@ class User(UserMixin,db.Model):
     username = db.Column(db.String(255), index = True)
     email = db.Column(db.String(255), unique = True, index = True)
     pass_secure = db.Column(db.String(255))
+    comments = db.relationship('Comments', backref = 'comments', lazy = 'dynamic')
+    pitch = db.relationship('Pitch', backref = 'pitch', lazy = 'dynamic')
     
     
     @property
@@ -74,15 +88,17 @@ class Comments(db.Model):
   __tablename__ = 'comments'
 
   id = db.Column(db.Integer, primary_key = True)
-  pitch_id = db.Column(db.Integer)
   title = db.Column(db.String)
-  image_path = db.Column(db.String)
   comment = db.Column(db.String)
   user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-
+  posted = db.Column(db.DateTime, default = datetime.utcnow)  
+  pitch = db.Column(db.Integer, db.ForeignKey('pitch.id'))
+  
+  
   def save_comment(self):
     db.session.add(self)
     db.session.commit()
+
 
   @classmethod
   def get_comments(cls, id):
