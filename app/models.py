@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from datetime import datetime
 from . import login_manager
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
 
 
 @login_manager.user_loader
@@ -55,3 +55,24 @@ class Role(db.Model):
 
   def __repr__(self):
     return f'User {self.name}'
+
+
+
+class Comments(db.Model):
+  __tablename__ = 'comments'
+
+  id = db.Column(db.Integer, primary_key = True)
+  pitch_id = db.Column(db.Integer)
+  title = db.Column(db.String)
+  image_path = db.Column(db.String)
+  comment = db.Column(db.String)
+  user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+  def save_comment(self):
+    db.session.add(self)
+    db.session.commit()
+
+  @classmethod
+  def get_comments(cls, id):
+    comments = Comments.query.filter_by(pitch_id=id).all()
+    return comments
