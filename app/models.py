@@ -33,6 +33,12 @@ class Pitch(db.Model):
     def get_pitches(cls, id):
         pitches = Pitch.query.filter_by(category_id=id).all()
         return pitches
+    
+    
+    def get_comments(self):
+        pitch = Pitch.query.filter_by(id = self.id).first()
+        comments = Comments.query.filter_by(pitch = pitch.id)
+        return comments
 
 
 class User(UserMixin,db.Model):
@@ -88,7 +94,6 @@ class Comments(db.Model):
   __tablename__ = 'comments'
 
   id = db.Column(db.Integer, primary_key = True)
-  title = db.Column(db.String)
   comment = db.Column(db.String)
   user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
   posted = db.Column(db.DateTime, default = datetime.utcnow)  

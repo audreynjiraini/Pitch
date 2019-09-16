@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% import 'macros.html' as macro %}
 
+{% block styles %}
+
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+      
+{% endblock %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,24 +18,12 @@
 </head>
 
 <body>
-    {% block styles %}
-
-      {{super()}}
-      <link rel="stylesheet" href="{{url_for('static, filename='css/index.css')}}">
-      
-    {% endblock %}
-
     {% block content %}
 
     <h1>Pitch Perfect</h1>
-    {{macro.displayPitches(user_pitches)}}
-    {{macro.displayPitches(pitches_1)}}
-    {{macro.displayPitches(pitches_2)}}
-    {{macro.displayPitches(pitches_3)}}
-    {{macro.displayPitches(pitches_4)}}
-    {{macro.displayPitches(pitches_5)}}
-    {{macro.displayPitches(pitches_6)}}
-
+    <hr>
+    {{macro.displayPitches(pitches)}}
+    
     {% endblock %}
 </body>
 </html>
