@@ -37,7 +37,8 @@ By Audrey Njiraini
 </ol>
 
 ## Known Bugs
-No known bugs.
+Some tests are not running.
+On the sign-up page, it does not show a successful sign up message but the users are created and can log in.
 
 ## Contact Information
 If you need clarification on any aspect, feel free to reach me via email at audreynjiraini@gmail.com
