@@ -12,18 +12,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="text/javascript" src="/app/particles.js">particlesJS("particles-js",<strong>particlesjs-config.json</strong>);</script>
     <title>Pitch</title>
 </head>
 
 <body>
     {% block content %}
-
-    <h1>Pitch Perfect</h1>
-    <hr>
-    {{macro.displayPitches(pitches)}}
+    <div id="particles-js">
+        <h1>Pitch Perfect</h1>
+        <hr>
+        <h2>{{ message }}</h2>
+        {{macro.displayPitches(pitches)}}
+    </div>
     
     {% endblock %}
+
+    <script type="text/javascript">
+        particlesJS("particles-js",<strong>particlesjs-config.json</strong>);
+       </script>
 </body>
 </html>

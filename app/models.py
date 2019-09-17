@@ -10,37 +10,6 @@ from . import login_manager
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-
-class Pitch(db.Model):
-    __tablename__ = 'pitch'
-    
-    id = db.Column(db.Integer, primary_key = True)
-    category = db.Column(db.String)
-    pitch_title = db.Column(db.String(255))
-    pitch_body = db.Column(db.String)
-    posted = db.Column(db.DateTime,default=datetime.utcnow)
-    upvotes = db.Column(db.Integer)
-    downvotes = db.Column(db.Integer)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    
-    comments = db.relationship('Comments', backref='comments1', lazy='dynamic')
-
-    def save_pitch(self):
-        db.session.add(self)
-        db.session.commit()
-
-    @classmethod
-    def get_pitches(cls, id):
-        pitches = Pitch.query.filter_by(category_id=id).all()
-        return pitches
-    
-    
-    def get_comments(self):
-        pitch = Pitch.query.filter_by(id = self.id).first()
-        comments = Comments.query.filter_by(pitch = pitch.id)
-        return comments
-
-
 class User(UserMixin,db.Model):
     __tablename__ = 'users'
     
@@ -49,6 +18,7 @@ class User(UserMixin,db.Model):
     username = db.Column(db.String(255), index = True)
     email = db.Column(db.String(255), unique = True, index = True)
     pass_secure = db.Column(db.String(255))
+    
     comments = db.relationship('Comments', backref = 'comments', lazy = 'dynamic')
     pitch = db.relationship('Pitch', backref = 'pitch', lazy = 'dynamic')
     
@@ -73,39 +43,79 @@ class User(UserMixin,db.Model):
 
 
     def __repr__(self):
-        return f'User {self.username}'
+        return f'User: {self.username}'
     
     
+ 
+ 
+class Pitch(db.Model):
+    __tablename__ = 'pitch'
     
+    id = db.Column(db.Integer, primary_key = True)
+    category = db.Column(db.String)
+    title = db.Column(db.String(255))
+    body = db.Column(db.String)
+    posted = db.Column(db.DateTime,default=datetime.utcnow)
+    upvotes = db.Column(db.Integer)
+    downvotes = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    
+    comments = db.relationship('Comments', backref='comments1', lazy='dynamic')
+
+    def save_pitch(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_pitches(cls, id):
+        pitches = Pitch.query.filter_by(id=id).all()
+        return pitches
+    
+    
+    def get_comments(self):
+        pitch = Pitch.query.filter_by(id = self.id).first()
+        comments = Comments.query.filter_by(pitch = pitch.id)
+        return comments
+    
+    
+    def __repr__(self):
+        return f'Pitch: {self.body}'
+
+
+   
 class Role(db.Model):
-  __tablename__ = 'roles'
+      __tablename__ = 'roles'
 
-  id = db.Column(db.Integer, primary_key = True)
-  name = db.Column(db.String(255))
-  users = db.relationship('User', backref='role', lazy='dynamic')
+      id = db.Column(db.Integer, primary_key = True)
+      name = db.Column(db.String(255))
+      users = db.relationship('User', backref='role', lazy='dynamic')
 
 
-  def __repr__(self):
-    return f'User {self.name}'
+      def __repr__(self):
+        return f'User {self.name}'
 
 
 
 class Comments(db.Model):
-  __tablename__ = 'comments'
+    __tablename__ = 'comments'
 
-  id = db.Column(db.Integer, primary_key = True)
-  comment = db.Column(db.String)
-  user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-  posted = db.Column(db.DateTime, default = datetime.utcnow)  
-  pitch = db.Column(db.Integer, db.ForeignKey('pitch.id'))
-  
-  
-  def save_comment(self):
-    db.session.add(self)
-    db.session.commit()
+    id = db.Column(db.Integer, primary_key = True)
+    comment = db.Column(db.String)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    posted = db.Column(db.DateTime, default = datetime.utcnow)  
+    pitch = db.Column(db.Integer, db.ForeignKey('pitch.id'))
+    
+    
+    def save_comment(self):
+        db.session.add(self)
+        db.session.commit()
 
 
-  @classmethod
-  def get_comments(cls, id):
-    comments = Comments.query.filter_by(pitch_id=id).all()
-    return comments
+    @classmethod
+    def get_comments(cls, id):
+        comments = Comments.query.filter_by(pitch_id=id).all()
+        return comments
+
+
+    def __repr__(self):
+        return f'Comment: {self.comment}'

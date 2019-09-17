@@ -1,0 +1,25 @@
+.container{
+    background-color: #F8F9F9;
+    border-radius:10px;
+    border:1.5px blue solid ;
+    margin-bottom:40px;
+  }
+  h1{
+    text-align:center;
+  }
+  
+  .container h1{
+    text-align:center;
+  }
+  body{
+    background-color:#F2F3F4;
+  }
+  .blinking{
+    animation:blinkingText 2.0s infinite;
+  }
+  @keyframes blinkingText{
+    0%{ color:#000;}
+    0% {color: transparent}
+    0% {color: transparent}
+    100% {color: blue;}
+  }
