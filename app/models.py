@@ -3,7 +3,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from datetime import datetime
 from . import login_manager
-# from flask_sqlalchemy import SQLAlchemy
 
 
 @login_manager.user_loader
@@ -14,13 +13,13 @@ class User(UserMixin,db.Model):
     __tablename__ = 'users'
     
     id = db.Column(db.Integer, primary_key = True)
-    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    first_name = db.Column(db.String(255))
+    last_name = db.Column(db.String(255))
     username = db.Column(db.String(255), index = True)
     email = db.Column(db.String(255), unique = True, index = True)
     pass_secure = db.Column(db.String(255))
-    
     comments = db.relationship('Comments', backref = 'comments', lazy = 'dynamic')
-    pitch = db.relationship('Pitch', backref = 'pitch', lazy = 'dynamic')
+    pitch = db.relationship('Pitch', backref = 'pitches', lazy = 'dynamic')
     
     
     @property
@@ -52,23 +51,25 @@ class Pitch(db.Model):
     __tablename__ = 'pitch'
     
     id = db.Column(db.Integer, primary_key = True)
-    category = db.Column(db.String)
     title = db.Column(db.String(255))
     body = db.Column(db.String)
     posted = db.Column(db.DateTime,default=datetime.utcnow)
-    upvotes = db.Column(db.Integer)
-    downvotes = db.Column(db.Integer)
+    category = db.Column(db.String)
+    # upvotes = db.Column(db.Integer)
+    # downvotes = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
     comments = db.relationship('Comments', backref='comments1', lazy='dynamic')
+
 
     def save_pitch(self):
         db.session.add(self)
         db.session.commit()
 
+
     @classmethod
     def get_pitches(cls, id):
-        pitches = Pitch.query.filter_by(id=id).all()
+        pitches = Pitch.query.filter_by(category_id = id).all()
         return pitches
     
     
@@ -83,16 +84,16 @@ class Pitch(db.Model):
 
 
    
-class Role(db.Model):
-      __tablename__ = 'roles'
+# class Role(db.Model):
+#       __tablename__ = 'roles'
 
-      id = db.Column(db.Integer, primary_key = True)
-      name = db.Column(db.String(255))
-      users = db.relationship('User', backref='role', lazy='dynamic')
+#       id = db.Column(db.Integer, primary_key = True)
+#       name = db.Column(db.String(255))
+#       users = db.relationship('User', backref='role', lazy='dynamic')
 
 
-      def __repr__(self):
-        return f'User {self.name}'
+#       def __repr__(self):
+#         return f'User {self.name}'
 
 
 

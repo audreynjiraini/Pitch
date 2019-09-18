@@ -16,14 +16,16 @@ def index():
     
     title = 'Welcome to Pitch'
     
-    return render_template('index.html', title = title, pitches=pitches)
+    return render_template('index.html', title = title, pitches=pitches[::-1])
 
 
 
-@main.route('/profile/<uname>/<id>')
-def profile(id, uname):
-    user = User.query.filter_by(username = uname)
-    pitches = Pitch.query.filter_by(id=id)
+@main.route('/profile/<uname>')
+@login_required
+def profile(uname):
+    user = User.query.filter_by(username = uname).first()
+    user_id = User.id
+    pitches = Pitch.query.filter_by(user_id=user_id).all()
     message="You don't have any pitches."
     if pitches is not 0:
         message="You have pitches"
@@ -41,7 +43,7 @@ def write_pitch():
     if form.validate_on_submit():
         upvotes = 0
         downvotes = 0
-        pitch = Pitch(title=form.title.data, body=form.body.data, category=form.category.data, upvotes = upvotes, downvotes = downvotes)
+        pitch = Pitch(title=form.title.data, body=form.body.data, category=form.category.data)
 
         db.session.add(pitch)
         db.session.commit()

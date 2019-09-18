@@ -1,13 +1,13 @@
-{% macro displayPitches(pitches_list) %}
-  {% for pitch in pitches_list %}
+{% macro displayPitches(pitch_list) %}
+  {% for pitches in pitch_list %}
   <div class="container">
     <div class="col-xs-12 col-sm-4 col-md-12 col-lg-12">
-      <h1>{{pitch.title}}</h1>
-      <h3>{{pitch.body}}</h3>
-      <h6><a href='#'>Upvotes: </a>{{pitch.upvotes}}</h6>
-      <h6><a href='#'>Downvotes: </a>{{pitch.downvotes}}</h6>
+      <h1>{{pitches.title}}</h1>
+      <h3>{{pitches.body}}</h3>
+      <h6><a href='#'>Upvotes: </a>{{pitches.upvotes}}</h6>
+      <h6><a href='#'>Downvotes: </a>{{pitches.downvotes}}</h6>
       <h6><a href='/comment'>Write a comment</a></h6>
-      <h6><a href="/view-comments/{{pitch.id}}">Read comments</a></h6>
+      <h6><a href="/view-comments/{{pitches.id}}">Read comments</a></h6>
     </div>
   </div>
   {% endfor %}
