@@ -24,11 +24,12 @@ def index():
 @login_required
 def profile(uname):
     user = User.query.filter_by(username = uname).first()
-    user_id = User.id
-    pitches = Pitch.query.filter_by(user_id=user_id).all()
+    user_id = Pitch.user_id
+    pitches = Pitch.query.filter_by(user_id = user_id).all()
     message="You don't have any pitches."
     if pitches is not 0:
         message="You have pitches"
+        # return render_template('pitches.html', user=user, pitches=pitches, message=message)
         
     if user is None:
         abort(404)

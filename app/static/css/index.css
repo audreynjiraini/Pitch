@@ -23,3 +23,8 @@
     0% {color: transparent}
     100% {color: blue;}
   }
+  body{
+      background-image: url('https://cdn.pixabay.com/photo/2017/03/12/17/54/quiz-2137664__340.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+  }
