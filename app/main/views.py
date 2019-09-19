@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, abort, fla
 from . import main
 from .forms import PitchForm, CommentForm
 from ..models import User, Pitch, Comments
-from ..pitches import get_pitch
+# from ..pitches import get_pitch
 from flask_login import login_required, current_user
 from .. import db
 import markdown2
@@ -24,17 +24,18 @@ def index():
 @login_required
 def profile(uname):
     user = User.query.filter_by(username = uname).first()
-    user_id = Pitch.user_id
-    pitches = Pitch.query.filter_by(user_id = user_id).all()
+    user_id = User.id
+    pitches = Pitch.query.filter_by(user_id=user_id).all()
+    # pitches_count = Pitch.count_pitches(uname)
     message="You don't have any pitches."
     if pitches is not 0:
-        message="You have pitches"
+        message="These are your pitches:"
         # return render_template('pitches.html', user=user, pitches=pitches, message=message)
         
     if user is None:
         abort(404)
         
-    return render_template('profile/profile.html', user=user, pitches=pitches, message=message)
+    return render_template('profile/profile.html', user = user, pitches = pitches, message = message)
 
 
 @main.route('/writing-pitch', methods=['GET', 'POST'])
@@ -42,29 +43,16 @@ def profile(uname):
 def write_pitch():
     form = PitchForm()
     if form.validate_on_submit():
-        upvotes = 0
-        downvotes = 0
+        # upvotes = 0
+        # downvotes = 0
         pitch = Pitch(title=form.title.data, body=form.body.data, category=form.category.data)
 
         db.session.add(pitch)
         db.session.commit()
-        return redirect(url_for('main.index'))
+        return redirect(url_for('.index'))
 
     title = 'New Pitch'
     return render_template('new_pitch.html', pitch=form, title=title)
-
-
-@main.route('/comment', methods=['GET', 'POST'])
-@login_required
-def write_comment():
-    form = CommentForm()
-    if form.validate_on_submit():
-        comment = Comments(comment=form.comment.data)
-        comment.save_comment()
-
-        return redirect(url_for('main.index'))
-
-    return render_template('comment.html', comment=form)
 
 
 @main.route('/interview')
@@ -118,18 +106,53 @@ def pitch_delete(id):
     pitch = Pitch.query.filter_by(id=id)
     return pitch.delete_pitch()
 
-@main.route('/pitch_review/<int:id>',methods=['GET','POST'])
-def pitch_review(id):
-   pitch=Pitch.query.get_or_404(id)
-   if request.args.get("upvote"):
-       pitch.upvote = pitch.upvotes+1
+@main.route('/pitch/<int:id>',methods=['GET','POST'])
+def pitch(id):
+   pitch = Pitch.get_pitch(id, id)
+   if request.args.get('like'):
+       pitch.likes = pitch.likes + 1
+       
        db.session.add(pitch)
        db.session.commit()
-       return redirect("/pitch_review/{pitch_id}".format(pitch_id=pitch.id))
-   elif request.args.get("downvote"):
-       pitch.downvotes=pitch.downvotes+1
+       
+       return redirect('/pitch/{pitch_id}'.format(pitch_id = pitch.id))
+   
+   elif request.args.get('dislike'):
+       pitch.dislikes = pitch.dislikes + 1
+       
        db.session.add(pitch)
        db.session.commit()
-       return redirect("/pitch_review/{pitch_id}".format(pitch_id=pitch.id))
-   title= 'Pitch'
-   return render_template('pitch_review.html',pitch=pitch)
+       
+       return redirect('/pitch/{pitch_id}'.format(pitch_id = pitch.id))
+   comment_form = CommentForm()
+   if comment_form.validate_on_submit():
+       comment = Comments(comment = comment_form.comment.data)
+       comment.save_comment()
+       
+       comments = Comments.get_comments(pitch)
+       
+       return render_template('pitch.html', pitch = pitch, comment=comment_form, comments = comments)
+
+
+@main.route('/profile/<uname>/pitches')
+def user_pitches(uname):
+    user = User.query.filter_by(username = uname).first()
+    pitches = Pitch.query.filter_by(user_id = user.id).all()
+    pitches_count = Pitch.count_pitches(uname)
+    
+    return render_template('profile.pitches.html', user = user, pitches = pitches, pitches_count = pitches_count)
+
+
+
+
+@main.route('/comment', methods=['GET', 'POST'])
+@login_required
+def write_comment():
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comments(comment = form.comment.data)
+        comment.save_comment()
+
+        # return redirect(url_for('.index'))
+
+    return render_template('comment.html', comment=form)

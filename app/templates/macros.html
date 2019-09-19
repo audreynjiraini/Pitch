@@ -1,13 +1,17 @@
-{% macro displayPitches(pitch_list) %}
-  {% for pitches in pitch_list %}
+{% macro displayPitches(pitches_list) %}
+  {% for pitch in pitches_list %}
   <div class="container">
-    <div class="col-xs-12 col-sm-4 col-md-12 col-lg-12">
-      <h1>{{pitches.title}}</h1>
-      <h3>{{pitches.body}}</h3>
-      <h6><a href='#'>Upvotes: </a>{{pitches.upvotes}}</h6>
-      <h6><a href='#'>Downvotes: </a>{{pitches.downvotes}}</h6>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h1>{{pitch.title}}</h1>
+      <h4>{{pitch.body}}</h4>
+      <!-- <h6><a href='#'>Likes: </a>{{pitch.likes}}</h6>
+      <h6><a href='#'>Dislikes: </a>{{pitch.dislikes}}</h6> -->
       <h6><a href='/comment'>Write a comment</a></h6>
-      <h6><a href="/view-comments/{{pitches.id}}">Read comments</a></h6>
+      <a href="/view-comments/{{pitch.id}}" class="btn btn-primary text-center">Read comments</a>
+      <!-- <p>Written by:  {{pitch.user_id.username}}</p> -->
+      <p>Posted: {{ pitch.posted }}</p>
+      <br>
+      <br>
     </div>
   </div>
   {% endfor %}
@@ -16,11 +20,11 @@
 {% macro displayComments(comments_list) %}
 {% for comment in comments_list %}
 <div class="container">
-  <div class="col-xs-12 col-sm-4 col-md-2 col-lg-12">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <ul>
-      <li><h1>{{comment.comment}}</h1></li>
+      <li><h4>{{comment.comment}}</h4></li>
     </ul>
-    <h6>Posted At: {{comment.posted}}</h6>
+    <h6>Posted: {{comment.posted}}</h6>
   </div>
 </div>
 {% endfor %}

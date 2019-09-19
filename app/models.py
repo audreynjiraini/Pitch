@@ -55,8 +55,8 @@ class Pitch(db.Model):
     body = db.Column(db.String)
     posted = db.Column(db.DateTime,default=datetime.utcnow)
     category = db.Column(db.String)
-    # upvotes = db.Column(db.Integer)
-    # downvotes = db.Column(db.Integer)
+    likes = db.Column(db.Integer)
+    dislikes = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
     comments = db.relationship('Comments', backref='comments1', lazy='dynamic')
@@ -68,10 +68,26 @@ class Pitch(db.Model):
 
 
     @classmethod
-    def get_pitches(cls, id):
-        pitches = Pitch.query.filter_by(category_id = id).all()
+    def get_pitches(cls, category):
+        pitches = Pitch.query.filter_by(category = category).all()
         return pitches
     
+    
+    def get_pitch(cls, id):
+        pitch = Pitch.query.filter_by(id = id).first()
+        return pitch
+    
+    
+    @classmethod
+    def count_pitches(cls, uname):
+        user = User.query.filter_by(username = uname). first()
+        pitches = Pitch.query.filter_by(user_id = user.id).all()
+        
+        pitches_count = 0
+        for pitch in pitches:
+            pitches_count += 1
+            
+        return pitches_count
     
     def get_comments(self):
         pitch = Pitch.query.filter_by(id = self.id).first()
@@ -113,8 +129,8 @@ class Comments(db.Model):
 
 
     @classmethod
-    def get_comments(cls, id):
-        comments = Comments.query.filter_by(pitch_id=id).all()
+    def get_comments(cls, pitch):
+        comments = Comments.query.filter_by(pitch_id = pitch).all()
         return comments
 
 

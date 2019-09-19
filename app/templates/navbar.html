@@ -23,7 +23,9 @@
             
                 <li><a class='ratings' href='/writing-pitch'>Write a new pitch</a></li>
 
-                <li style='color:white;'><a href="{{url_for('main.profile', uname=current_user.username, id=current_user.id)}}">{{current_user.username}}</a></li>
+                <li style='color:white;'><a href="{{url_for('main.profile', uname=current_user.username)}}">{{current_user.username}}'s Profile</a></li>
+
+                <!-- <li><a href="{{url_for('main.user_pitches',uname=current_user.username)}}">{{current_user.username}}'s Pitches</a></li> -->
 
                 <li><a href="{{url_for('auth.logout')}}">Sign out</a></li>
 

@@ -1,0 +1,26 @@
+{% extends 'base.html'%}
+{% import 'macros.html' as macro%}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block styles -%}
+    {{super()}}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+
+<div class=" col-xs-12 col-sm-12 col-md-8 col-lg-8 well pitch-well">
+    <div class="row">
+        <h2>{{pitch.title}}</h2>
+        <hr>
+        <p>{{pitch.body}}</p>
+
+        <span>
+        <p>Posted on: {{pitch.posted}}</p>
+        <a href ="/pitch/{{pitch.id}}?like=1"><i class="far fa-thumbs-up"></i></a>{{pitch.likes}}
+        <a href ="/pitch/{{pitch.id}}?dislike=1"> <i class="far fa-thumbs-down"></i></a>{{pitch.dislikes}}
+        </span>
+    </div>
+</div>
+    
+ {% endblock %}

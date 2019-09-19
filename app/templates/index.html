@@ -8,6 +8,8 @@
       
 {% endblock %}
 
+{% block content %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,18 +19,17 @@
 </head>
 
 <body>
-    {% block content %}
+    
     <div id="particles-js">
-        <h1>Pitch Perfect</h1>
+        <h1 class="text-white">Pitch Perfect</h1>
         <hr>
         <h2>{{ message }}</h2>
         {{macro.displayPitches(pitches)}}
     </div>
-    
-    {% endblock %}
 
     <script type="text/javascript">
         particlesJS("particles-js",<strong>particlesjs-config.json</strong>);
        </script>
 </body>
 </html>
+{% endblock %}
