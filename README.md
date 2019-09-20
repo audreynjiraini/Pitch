@@ -37,7 +37,7 @@ By Audrey Njiraini
 </ol>
 
 ## Known Bugs
-Some tests are not running.
+The pitch comments are not displaying.
 
 ## Contact Information
 If you need clarification on any aspect, feel free to reach me via email at audreynjiraini@gmail.com

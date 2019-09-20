@@ -15,8 +15,8 @@ class PitchTest(unittest.TestCase):
         User.query.delete()
         
         
-    # def test_instance(self):
-    #     self.assertTrue(isinstance(self.new_pitch, Pitch))
+    def test_instance(self):
+        self.assertTrue(isinstance(self.new_pitch, Pitch))
         
         
     def test_check_instance_variables(self):

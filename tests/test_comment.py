@@ -22,11 +22,11 @@ class CommentsModelTest(unittest.TestCase):
         self.assertEquals(self.new_comment.user_id, 1)
 
 
-    # def test_save_comment(self):
-    #     self.new_comment.save_comment()
-    #     self.assertTrue(len(Comments.query.all())>0)
+    def test_save_comment(self):
+        self.new_comment.save_comment()
+        self.assertTrue(len(Comments.query.all())>0)
 
-    # def test_get_comment_by_id(self):
-    #     self.new_comment.save_comment()
-    #     got_comments = Comments.get_comments(1)
-    #     self.assertTrue(len(got_comments) == 1)
+    def test_get_comment_by_id(self):
+        self.new_comment.save_comment()
+        got_comments = Comments.get_comments(1)
+        self.assertTrue(len(got_comments) == 1)
